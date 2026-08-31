@@ -1,0 +1,4 @@
+interface:
+  display_name: "TDD・DDD アプリケーション開発"
+  short_description: "ドメインとユースケースを先にTDDで完成させる開発手順"
+  default_prompt: "Use $tdd-ddd-application to build this application core-first with TDD and DDD."
