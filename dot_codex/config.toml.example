@@ -1,0 +1,17 @@
+# Shared Codex defaults.
+# Keep approval, sandbox, project trust, MCP, plugin, and desktop settings local
+# because they depend on the target PC and its security policy.
+
+model = "gpt-5.6-luna"
+model_reasoning_effort = "xhigh"
+personality = "pragmatic"
+
+[agents]
+default_subagent_model = "gpt-5.6-luna"
+default_subagent_reasoning_effort = "xhigh"
+
+[features]
+multi_agent = true
+memories = false
+js_repl = false
+chronicle = false

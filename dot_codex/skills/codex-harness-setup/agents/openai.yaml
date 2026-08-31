@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Harness Setup"
+  short_description: "Set up Codex and Claude Code across major desktop OSes"
+  default_prompt: "Use $codex-harness-setup to set up Codex and/or Claude Code with backups and verification."

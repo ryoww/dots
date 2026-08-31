@@ -1,0 +1,181 @@
+{
+  "description": "Global Codex harness hooks for safety, validation, subagents, and evaluation telemetry.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event SessionStart",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event SessionStart",
+            "timeout": 10,
+            "statusMessage": "Loading Codex harness context",
+            "additionalContextLimit": 1200
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event SessionEnd",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event SessionEnd",
+            "timeout": 3,
+            "statusMessage": "Recording Codex session"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event PreToolUse",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event PreToolUse",
+            "timeout": 10,
+            "statusMessage": "Checking shell safety"
+          }
+        ]
+      },
+      {
+        "matcher": "^(apply_patch|Edit|Write)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event PreToolUse",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event PreToolUse",
+            "timeout": 10,
+            "statusMessage": "Checking edit safety"
+          }
+        ]
+      },
+      {
+        "matcher": "^Agent$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event PreToolUse",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event PreToolUse",
+            "timeout": 5,
+            "statusMessage": "Checking subagent effort policy"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event PermissionRequest",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event PermissionRequest",
+            "timeout": 10,
+            "statusMessage": "Checking requested shell permission"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event UserPromptSubmit",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event UserPromptSubmit",
+            "timeout": 5,
+            "statusMessage": "Checking prompt safety"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(apply_patch|Edit|Write)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event PostToolUse",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event PostToolUse",
+            "timeout": 30,
+            "statusMessage": "Running fast post-edit validation",
+            "additionalContextLimit": 1200
+          }
+        ]
+      },
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event PostToolUse",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event PostToolUse",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Recording shell result"
+          }
+        ]
+      },
+      {
+        "matcher": "^mcp__.*$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event PostToolUse",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event PostToolUse",
+            "async": true,
+            "timeout": 10,
+            "statusMessage": "Scanning tool output"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event SubagentStart",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event SubagentStart",
+            "timeout": 5,
+            "statusMessage": "Loading subagent contract",
+            "additionalContextLimit": 1200
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event SubagentStop",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event SubagentStop",
+            "timeout": 10,
+            "statusMessage": "Checking subagent report"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex_hooks.py\" --event Stop",
+            "commandWindows": "py -3 \"%USERPROFILE%\\.codex\\hooks\\codex_hooks.py\" --event Stop",
+            "timeout": 10,
+            "statusMessage": "Running final completion check"
+          }
+        ]
+      }
+    ]
+  }
+}
