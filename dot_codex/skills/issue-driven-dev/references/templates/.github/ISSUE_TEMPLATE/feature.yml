@@ -1,0 +1,56 @@
+name: 機能実装
+description: 仕様に沿って機能を実装する
+title: "[feat] "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: やること
+      description: 1 つの機能か 1 つの作業に絞って書く
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 目的
+      description: なぜ必要か。docs/vision.md のどの項目に当たるか
+    validations:
+      required: true
+  - type: textarea
+    id: docs
+    attributes:
+      label: 関係するドキュメント
+      placeholder: |
+        - 仕様: docs/specs/〈ファイル〉(新しく作るなら予定のファイル名)
+        - 未解決の項目: OQ-NNN(なければ「なし」)
+        - 決定: D-XXXX(なければ「なし」)
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 受け入れ条件
+      description: この Issue が「完了」と言える条件をチェックボックスで列挙する
+      placeholder: |
+        - [ ] 仕様を書いた、または書き換えた
+        - [ ] (ユーザーが何をできるようになるか)
+        - [ ] (境界条件・異常系の振る舞い)
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: スコープ外
+      description: この Issue ではやらないこと(あれば)
+  - type: checkboxes
+    id: regression
+    attributes:
+      label: 全体リグレッション
+      description: 複数機能にまたがる大規模改修・基盤ライブラリの更新なら付ける。PR で全フローと手動チェックリストを確認する(テスト戦略の決定)
+      options:
+        - label: 全体リグレッションが要る
+  - type: textarea
+    id: notes
+    attributes:
+      label: 補足

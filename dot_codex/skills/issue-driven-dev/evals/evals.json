@@ -1,0 +1,26 @@
+{
+  "skill_name": "issue-driven-dev",
+  "evals": [
+    {
+      "id": 0,
+      "name": "fresh-web-app",
+      "prompt": "このリポジトリ(カレントディレクトリ)に、AI 駆動の Issue 駆動開発の基盤を敷いてください。GitHub は example/todo-share、プロダクトは「家族で ToDo を共有する Web アプリ」、スタックは Next.js + Supabase、ロジックテストは vitest、E2E は Playwright。自動テストで守れないレビュー観点として「Supabase RLS で家族グループの境界を越えていないこと」を入れてください。docs/ はまだ無いので骨組みから作ってください。このセッションでは私に質問できないので、上の情報で足りない点は常識的な既定を選び、最後に何を選んだか報告してください。コミットはせず、ファイルを置くところまでで止めてください。",
+      "expected_output": "AGENTS.md と CLAUDE.md(@AGENTS.md)、Issue テンプレ 3 種、PR テンプレ、5 つのスキル、settings.json、docs/(README・vision・workflow・specs/README・specs/_template・decisions/_template・open-questions)が配置され、プレースホルダが残っていない。vision/specs/decisions の中身は生成されていない。",
+      "files": ["fixtures/todo-share"]
+    },
+    {
+      "id": 1,
+      "name": "existing-docs-migration",
+      "prompt": "このリポジトリ(カレントディレクトリ)は既に CLAUDE.md と docs/(features.md・adr/・domain/)があります。これを Issue 駆動・仕様駆動の運用に整えたいです。GitHub は example/recipe-box、「レシピを保存して献立を組む iOS アプリ」、React Native + Expo + Supabase、ロジックテストは Jest、E2E は Maestro。プロジェクト固有のレビュー観点は「Supabase RLS でユーザー境界を越えていないこと」。既存の docs は壊さないでください。既存ファイルの扱いは、上書きせず残す方針で進め、どう再編すべきかの案を最後に報告してください。このセッションでは私に質問できないので、足りない点は常識的な既定を選んで報告してください。コミットはしないでください。",
+      "expected_output": "既存の CLAUDE.md・features.md・adr/・domain/ が削除も上書きもされていない。AGENTS.md・テンプレ・スキル・docs/README.md・open-questions.md が追加され、既存 docs を vision/specs/decisions にどう対応づけるかの案が報告される。",
+      "files": ["fixtures/recipe-box"]
+    },
+    {
+      "id": 2,
+      "name": "python-cli-no-e2e",
+      "prompt": "このリポジトリ(カレントディレクトリ)に Issue 駆動開発の基盤を敷いてください。GitHub は example/logtidy、「ログファイルを整形して要約する CLI」、Python 3.13 + uv、テストは pytest、E2E はありません。自動テストで守れない固有のレビュー観点も特にありません。docs/ は無いので骨組みから作ってください。質問はできないので、足りない点は常識的な既定を選んで最後に報告してください。コミットはしないでください。",
+      "expected_output": "基盤一式が配置され、E2E・全体リグレッション・プロジェクト固有チェックに関する行が PR テンプレ・Issue テンプレ・AGENTS.md・スキルから削除されている。プレースホルダが残っていない。",
+      "files": ["fixtures/logtidy"]
+    }
+  ]
+}

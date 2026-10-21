@@ -1,0 +1,36 @@
+name: 設計議論
+description: 決定として記録する前の設計論点を議論する
+title: "[design] "
+labels: ["design"]
+body:
+  - type: textarea
+    id: topic
+    attributes:
+      label: 論点
+      description: 何を決めたいか
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+      description: なぜ今決める必要があるか。きっかけ
+  - type: textarea
+    id: options
+    attributes:
+      label: 選択肢
+      placeholder: |
+        ### 案A: …
+        - 利点:
+        - 欠点:
+
+        ### 案B: …
+  - type: textarea
+    id: links
+    attributes:
+      label: 関連
+      description: "`docs/open-questions.md` の OQ 番号、関連する決定(D-XXXX)・仕様"
+  - type: markdown
+    attributes:
+      value: |
+        結論が出たら `/record-decision` で `docs/decisions/` に記録し、OQ を解決済みにする。
