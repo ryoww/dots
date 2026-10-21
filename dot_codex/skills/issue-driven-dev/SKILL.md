@@ -1,45 +1,44 @@
 ---
 name: issue-driven-dev
-description: 新しいリポジトリ(または Issue 駆動を後付けしたい既存リポジトリ)に、AI 駆動の Issue 駆動開発の基盤を敷く。AGENTS.md(Claude Code と Codex 兼用)・CLAUDE.md・Issue/PR テンプレート・5 つのスキル(create-issue / implement-issue / merge-pr / record-decision / check-docs)・読み取り専用 permissions・docs の骨組み(vision / workflow / specs / decisions / open-questions)を、質問でプロジェクト固有の項目を埋めてから配置する。docs の書き方(一次情報は 1 か所・仕様の状態と受け入れ条件・追記のみの決定記録・OQ で尋ねる)も一緒に敷く。「Issue 駆動で開発したい」「AI に仕様とコードをそろえさせたい」「docs の構成を整えたい」「chalo や kyouen-multi と同じ運用にしたい」「新しいリポジトリの開発ルールを作りたい」で使う。リポジトリの立ち上げ直後なら、頼まれなくてもこのスキルを提案する。
+description: 新しいリポジトリ(または Issue 駆動を後付けしたい既存リポジトリ)に、AI 駆動の Issue 駆動開発の基盤を敷く。AGENTS.md(Claude Code と Codex 兼用)・CLAUDE.md・Issue/PR テンプレート・5 つのスキル(create-issue / implement-issue / merge-pr / record-decision / check-docs)・読み取り専用 permissions・docs の骨組み(vision / workflow / specs / decisions / open-questions)を、質問でプロジェクト固有の項目を埋めてから配置する。docs の書き方(一次情報は 1 か所・仕様の状態と受け入れ条件・追記のみの決定記録・OQ で尋ねる)も一緒に敷く。「Issue 駆動で開発したい」「AI に仕様とコードをそろえさせたい」「docs の構成を整えたい」「新しいリポジトリの開発ルールを作りたい」「仕様駆動で進めたい」で使う。リポジトリの立ち上げ直後なら、頼まれなくてもこのスキルを提案する。
 argument-hint: <owner/repo>(省略可)
 ---
 
 対象リポジトリ: $ARGUMENTS(省略時はカレントの `git remote` から推定して確認する)
 
-iOS アプリ chalo と Web アプリ kyouen-multi で実運用した Issue 駆動開発の基盤を統合した雛形を敷く。
-どちらも「Issue から始める」「docs を先に書く」「決められないことは推測せず書いて尋ねる」を AI に守らせる仕組みで、
-基盤は最初の 1 コミットで敷かれ、以後は運用で困ったところだけ足されていった。
+「Issue から始める」「docs を先に書く」「決められないことは推測せず書いて尋ねる」を AI に守らせる基盤を敷く。
+基盤は最初の 1 コミットで敷き、以後は運用で困ったところだけ足していく。
 このスキルはその「最初の 1 コミット」に当たる部分を敷く。
 リリースや全体リグレッションのスキル、CI は含めない(必要になってから、そのプロジェクトの決定に合わせて作る)。
 
 雛形は `references/templates/`、docs の書き方は `references/docs-writing-guide.md`。
 **docs を配置する前に必ず `docs-writing-guide.md` を読む。** 配置後にユーザーへ構造を説明するときも、この文書の言葉で説明する。
 
-## 敷くものと、なぜそれか
+## 敷くもの
 
-| 配置物 | 役割 | 由来 |
-|---|---|---|
-| `AGENTS.md` | AI への指示の本体。Claude Code と Codex で同じ決まりを使う | kyouen-multi(D-0013) |
-| `CLAUDE.md` | `@AGENTS.md` で読み込み、Claude Code 専用のスラッシュコマンド表だけ持つ | 同上 |
-| `.github/ISSUE_TEMPLATE/` | feature / bug / design の 3 種。関係するドキュメントと受け入れ条件を必須にする | chalo(3 種)+ kyouen-multi(目的・OQ・決定の欄) |
-| `.github/pull_request_template.md` | 「ドキュメント」欄(仕様・OQ・決定)とテスト結果表、確認事項 | 両方 |
-| `.claude/skills/` 5 本 | Issue 起票 → 実装 → マージ、決定の記録、docs の検査 | chalo の 5 スキルを新構造に合わせた |
-| `.claude/settings.json` | git と GitHub の読み取り系だけを許可 | chalo |
-| `docs/` 骨組み | vision / workflow / specs / decisions / open-questions | 構造は kyouen-multi、「一次情報は 1 か所」「印を付けない」は chalo |
+| 配置物 | 役割 |
+|---|---|
+| `AGENTS.md` | AI への指示の本体。Claude Code と Codex で同じ決まりを使う |
+| `CLAUDE.md` | `@AGENTS.md` で読み込み、Claude Code 専用のスラッシュコマンド表だけ持つ |
+| `.github/ISSUE_TEMPLATE/` | feature / bug / design の 3 種。関係するドキュメントと受け入れ条件を必須にする |
+| `.github/pull_request_template.md` | 「ドキュメント」欄(仕様・OQ・決定)とテスト結果表、確認事項 |
+| `.claude/skills/` 5 本 | Issue 起票 → 実装 → マージ、決定の記録、docs の検査 |
+| `.claude/settings.json` | git と GitHub の読み取り系だけを許可 |
+| `docs/` 骨組み | vision / workflow / specs / decisions / open-questions |
 
 ## プレースホルダ
 
 雛形の `{{…}}` を質問で埋める。
 
-| プレースホルダ | 内容 | 例 |
+| プレースホルダ | 内容 | 形 |
 |---|---|---|
-| `{{REPO}}` | GitHub の `owner/repo` | `adelppi/chalo` |
-| `{{PRODUCT_NAME}}` | プロダクト名 | `chalo` |
-| `{{PRODUCT_DESCRIPTION}}` | プロダクトの一文説明 | `カップルが「いつか一緒に行きたい所」を貯めて共有する iOS アプリ。` |
-| `{{STACK}}` | 技術スタックと前提の一文 | `Next.js + Liveblocks。日本語のみ。` |
-| `{{LOGIC_TEST_TOOL}}` | 純粋関数のテストに使うツール | `Jest` / `vitest` / `pytest` |
-| `{{E2E_TOOL}}` | E2E に使うツール。無ければ「なし」 | `Maestro` / `Playwright` |
-| `{{PROJECT_SPECIFIC_CHECK}}` | 自動テストで守れないレビュー観点。無ければ行ごと削除 | `Supabase RLS・ペア境界に影響がない` |
+| `{{REPO}}` | GitHub のリポジトリ | `<owner>/<repo>` |
+| `{{PRODUCT_NAME}}` | プロダクト名 | `<プロダクト名>` |
+| `{{PRODUCT_DESCRIPTION}}` | プロダクトの一文説明 | `〈誰〉が〈何をする〉ための〈種類〉アプリ。` |
+| `{{STACK}}` | 技術スタックと前提の一文 | `〈フレームワーク〉 + 〈バックエンド〉。〈対応範囲の前提〉。` |
+| `{{LOGIC_TEST_TOOL}}` | 純粋関数のテストに使うツール | `〈ロジックテストのツール名〉` |
+| `{{E2E_TOOL}}` | E2E に使うツール。無ければ「なし」 | `〈E2E ツール名〉` |
+| `{{PROJECT_SPECIFIC_CHECK}}` | 自動テストで守れないレビュー観点。無ければ行ごと削除 | `〈データのアクセス境界〉を越えていないこと` |
 
 ## 手順
 
@@ -92,7 +91,7 @@ AskUserQuestion(選択肢で聞けるもの)か通常の質問で、**2〜3 個�
    1. `docs/vision.md` を人が書く。「やらないこと」と「判断の基準」まで埋める。
    2. `/record-decision` で最初の決定(テスト戦略、ディレクトリ構成)を `D-0001` `D-0002` として書き、`docs/README.md` の表と `AGENTS.md` の「コードを書くとき」に番号を入れる。
    3. 最初の機能を `/create-issue` で起票し、`/implement-issue` で仕様 → 実装の順に進める。
-   4. 運用で困ったら、そのときスキルを足す(chalo では release・regression-test、kyouen-multi では CI デプロイが後から加わった)。
+   4. 運用で困ったら、そのときスキルを足す(リリース手順、全体リグレッション、CI など)。
 
 ## してはいけないこと
 

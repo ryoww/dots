@@ -18,7 +18,7 @@ Issue から PR までの進め方と、仕様とコードをそろえるため�
 
 ### 2. ブランチを作る
 
-- ブランチ名は `feat/<Issue 番号>-<短い英語の名前>`(例: `feat/12-room-create`)。バグは `fix/`、docs だけなら `docs/`、それ以外は `chore/`。
+- ブランチ名は `feat/<Issue 番号>-<短い英語の名前>`。バグは `fix/`、docs だけなら `docs/`、それ以外は `chore/`。
 - `main` に直接コミットしない。
 
 ### 3. docs を書く
